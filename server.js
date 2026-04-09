@@ -3,13 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { scrapeSite } from "./scraper.js";
 
-import {
-  saveScrape,
-  getTokens,
-  updateLockedTokens,
-  initDb,
-  getVersionHistory
-} from "./db.js";
+
 import {
   saveScrape,
   getTokens,
