@@ -2,12 +2,21 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { scrapeSite } from "./scraper.js";
+
 import {
   saveScrape,
   getTokens,
   updateLockedTokens,
   initDb,
   getVersionHistory
+} from "./db.js";
+import {
+  saveScrape,
+  getTokens,
+  updateLockedTokens,
+  initDb,
+  getVersionHistory,
+  saveHistoryVersion
 } from "./db.js";
 import { tokensToCssVariables } from "./export.js";
 
@@ -55,6 +64,24 @@ app.post("/api/tokens/:siteId/lock", async (req, res) => {
     return res.json({ success: true, computed });
   } catch (err) {
     return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/history/:siteId", async (req, res) => {
+  try {
+    const { before, after } = req.body;
+
+    await saveHistoryVersion(
+      req.params.siteId,
+      before,
+      after
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
   }
 });
 

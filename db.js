@@ -127,3 +127,11 @@ export async function getVersionHistory(siteId) {
 
   return res.rows;
 }
+
+export async function saveHistoryVersion(siteId, before, after) {
+  await pool.query(
+    `INSERT INTO version_history (site_id, before, after)
+     VALUES ($1, $2, $3)`,
+    [siteId, JSON.stringify(before), JSON.stringify(after)]
+  );
+}
